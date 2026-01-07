@@ -1,0 +1,28 @@
+# --- Mac System Files ---
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+.env
+.anaconda/
+.conda/
+
+# --- IDEs (VS Code, JetBrains) ---
+.vscode/
+.idea/
+
+# --- Data (Optional but recommended) ---
+# Uncomment the line below if your CSVs are too big for GitHub (>100MB)
+# data/*.csv
+
+# --- Jupyter Notebook Checkpoints ---
+.ipynb_checkpoints
