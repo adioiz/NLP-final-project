@@ -1,0 +1,16 @@
+{
+  "model": "ELECTRA",
+  "model_name": "google/electra-base-discriminator",
+  "parameters": 109486854,
+  "size_mb": 417.6670150756836,
+  "training_time": 11693.627315044403,
+  "accuracy": 0.926,
+  "f1_macro": 0.9055762272751672,
+  "f1_weighted": 0.9273298897657196,
+  "f1_sadness": 0.9554140127388535,
+  "f1_joy": 0.9422222222222222,
+  "f1_love": 0.868020304568528,
+  "f1_anger": 0.931098696461825,
+  "f1_fear": 0.875,
+  "f1_surprise": 0.8617021276595744
+}
