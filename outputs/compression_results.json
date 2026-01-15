@@ -1,34 +1,34 @@
 {
-  "Original BERT": {
-    "size_mb": 417.73493099212646,
-    "accuracy": 0.935,
-    "f1_macro": 0.9177010047893074,
-    "f1_weighted": 0.9356882025133124,
-    "inference_time": 65.05655598640442,
+  "Original RoBERTa": {
+    "size_mb": 475.57990169525146,
+    "accuracy": 0.934,
+    "f1_macro": 0.9132494499165701,
+    "f1_weighted": 0.9352403035818461,
+    "inference_time": 65.83405613899231,
     "compression_ratio": 1.0
   },
   "Quantized (8-bit)": {
-    "size_mb": 173.08803844451904,
-    "accuracy": 0.9365,
-    "f1_macro": 0.918313144874369,
-    "f1_weighted": 0.9370701348077497,
-    "inference_time": 137.70180082321167,
-    "compression_ratio": 2.413424606033799
+    "size_mb": 230.93361949920654,
+    "accuracy": 0.929,
+    "f1_macro": 0.90738963662969,
+    "f1_weighted": 0.9303369561791964,
+    "inference_time": 137.6611819267273,
+    "compression_ratio": 2.059379239482649
   },
   "Pruned (30%)": {
-    "size_mb": 417.73493099212646,
-    "accuracy": 0.9295,
-    "f1_macro": 0.9088169945534729,
-    "f1_weighted": 0.930089665095091,
-    "inference_time": 64.54819297790527,
+    "size_mb": 475.57990169525146,
+    "accuracy": 0.902,
+    "f1_macro": 0.8649046676240241,
+    "f1_weighted": 0.9003858365845453,
+    "inference_time": 64.52043986320496,
     "compression_ratio": 1.0
   },
   "Pruned (50%)": {
-    "size_mb": 417.73493099212646,
-    "accuracy": 0.9135,
-    "f1_macro": 0.887426529859053,
-    "f1_weighted": 0.9131717667735786,
-    "inference_time": 64.57047891616821,
+    "size_mb": 475.57990169525146,
+    "accuracy": 0.402,
+    "f1_macro": 0.1935712620953017,
+    "f1_weighted": 0.27833869776811593,
+    "inference_time": 65.19329285621643,
     "compression_ratio": 1.0
   }
 }

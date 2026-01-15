@@ -255,61 +255,7 @@ def plot_training_resources(results):
 
 
 # =============================================================================
-# PLOT 4: Efficiency Analysis (Performance vs Resources)
-# =============================================================================
-def plot_efficiency_analysis(results):
-    """Analyze efficiency: performance relative to resources."""
-    
-    models = list(results.keys())
-    
-    fig, axes = plt.subplots(1, 2, figsize=(12, 5))
-    fig.suptitle('Efficiency Analysis', fontsize=16, fontweight='bold', y=1.02)
-    
-    # Plot 1: Accuracy vs Training Time (Scatter)
-    times = [results[m]["training_time"] / 60 for m in models]
-    accuracies = [results[m]["accuracy"] for m in models]
-    
-    for i, model in enumerate(models):
-        axes[0].scatter(times[i], accuracies[i], s=200, c=COLORS[model], 
-                       label=model, edgecolors='black', linewidth=2, zorder=3)
-    
-    axes[0].set_xlabel('Training Time (minutes)')
-    axes[0].set_ylabel('Accuracy')
-    axes[0].set_title('Accuracy vs Training Time')
-    axes[0].legend(loc='upper right')
-    axes[0].grid(True, alpha=0.3)
-    
-    for i, model in enumerate(models):
-        axes[0].annotate(model, (times[i], accuracies[i]), 
-                        xytext=(10, 10), textcoords='offset points', fontsize=9)
-    
-    # Plot 2: F1 Macro vs Model Size (Scatter)
-    sizes = [results[m]["size_mb"] for m in models]
-    f1_macros = [results[m]["f1_macro"] for m in models]
-    
-    for i, model in enumerate(models):
-        axes[1].scatter(sizes[i], f1_macros[i], s=200, c=COLORS[model], 
-                       label=model, edgecolors='black', linewidth=2, zorder=3)
-    
-    axes[1].set_xlabel('Model Size (MB)')
-    axes[1].set_ylabel('F1 Macro')
-    axes[1].set_title('F1 Macro vs Model Size')
-    axes[1].legend(loc='upper right')
-    axes[1].grid(True, alpha=0.3)
-    
-    for i, model in enumerate(models):
-        axes[1].annotate(model, (sizes[i], f1_macros[i]), 
-                        xytext=(10, 10), textcoords='offset points', fontsize=9)
-    
-    plt.tight_layout()
-    save_path = f"{PLOTS_DIR}/04_efficiency_analysis.png"
-    plt.savefig(save_path)
-    plt.close()
-    print(f"Saved: {save_path}")
-
-
-# =============================================================================
-# PLOT 5: Comprehensive Summary Table (as figure)
+# PLOT 4: Comprehensive Summary Table (as figure)
 # =============================================================================
 def plot_summary_table(results):
     """Create a visual summary table."""
@@ -343,91 +289,20 @@ def plot_summary_table(results):
         table[(0, i)].set_facecolor('#3498db')
         table[(0, i)].set_text_props(color='white', fontweight='bold')
     
-    # Highlight best model row (BERT - row 1)
+    # Highlight best model row (RoBERTa - row 2)
     for i in range(len(columns)):
-        table[(1, i)].set_facecolor('#d5f4e6')
+        table[(2, i)].set_facecolor('#d5f4e6')
     
     plt.title('Model Comparison Summary', fontsize=14, fontweight='bold', pad=20)
     
-    save_path = f"{PLOTS_DIR}/05_summary_table.png"
+    save_path = f"{PLOTS_DIR}/04_summary_table.png"
     plt.savefig(save_path, bbox_inches='tight', pad_inches=0.5)
     plt.close()
     print(f"Saved: {save_path}")
 
 
 # =============================================================================
-# PLOT 6: Compression Results
-# =============================================================================
-def plot_compression_results():
-    """Create comprehensive compression comparison."""
-    
-    results = load_compression_results()
-    if results is None:
-        print("Compression results not found. Skipping compression plots.")
-        return
-    
-    models = list(results.keys())
-    
-    fig, axes = plt.subplots(2, 2, figsize=(12, 10))
-    fig.suptitle('Model Compression Analysis', fontsize=16, fontweight='bold', y=1.02)
-    
-    colors = ['#3498db', '#9b59b6', '#e67e22', '#e74c3c']
-    
-    # Plot 1: File Size - use helper function to handle different key names
-    sizes = [get_size_mb(results[m]) for m in models]
-    bars1 = axes[0, 0].bar(models, sizes, color=colors, edgecolor='black', linewidth=1.2)
-    axes[0, 0].set_ylabel('File Size (MB)')
-    axes[0, 0].set_title('Model File Size After Compression')
-    axes[0, 0].tick_params(axis='x', rotation=45)
-    for bar, s in zip(bars1, sizes):
-        axes[0, 0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 5,
-                       f'{s:.1f}', ha='center', va='bottom', fontsize=10, fontweight='bold')
-    axes[0, 0].grid(axis='y', alpha=0.3)
-    
-    # Plot 2: Accuracy
-    accuracies = [results[m]["accuracy"] for m in models]
-    bars2 = axes[0, 1].bar(models, accuracies, color=colors, edgecolor='black', linewidth=1.2)
-    axes[0, 1].set_ylabel('Accuracy')
-    axes[0, 1].set_title('Accuracy After Compression')
-    axes[0, 1].set_ylim(0.90, 0.95)
-    axes[0, 1].tick_params(axis='x', rotation=45)
-    for bar, acc in zip(bars2, accuracies):
-        axes[0, 1].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.002,
-                       f'{acc:.4f}', ha='center', va='bottom', fontsize=9, fontweight='bold')
-    axes[0, 1].grid(axis='y', alpha=0.3)
-    
-    # Plot 3: F1 Macro
-    f1_macros = [results[m]["f1_macro"] for m in models]
-    bars3 = axes[1, 0].bar(models, f1_macros, color=colors, edgecolor='black', linewidth=1.2)
-    axes[1, 0].set_ylabel('F1 Macro')
-    axes[1, 0].set_title('F1 Macro After Compression')
-    axes[1, 0].set_ylim(0.88, 0.93)
-    axes[1, 0].tick_params(axis='x', rotation=45)
-    for bar, f1 in zip(bars3, f1_macros):
-        axes[1, 0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.002,
-                       f'{f1:.4f}', ha='center', va='bottom', fontsize=9, fontweight='bold')
-    axes[1, 0].grid(axis='y', alpha=0.3)
-    
-    # Plot 4: Inference Time
-    inf_times = [results[m]["inference_time"] for m in models]
-    bars4 = axes[1, 1].bar(models, inf_times, color=colors, edgecolor='black', linewidth=1.2)
-    axes[1, 1].set_ylabel('Inference Time (seconds)')
-    axes[1, 1].set_title('Inference Time')
-    axes[1, 1].tick_params(axis='x', rotation=45)
-    for bar, t in zip(bars4, inf_times):
-        axes[1, 1].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
-                       f'{t:.1f}s', ha='center', va='bottom', fontsize=10, fontweight='bold')
-    axes[1, 1].grid(axis='y', alpha=0.3)
-    
-    plt.tight_layout()
-    save_path = f"{PLOTS_DIR}/06_compression_comparison.png"
-    plt.savefig(save_path)
-    plt.close()
-    print(f"Saved: {save_path}")
-
-
-# =============================================================================
-# PLOT 7: Compression Trade-off Analysis
+# PLOT 5: Compression Trade-off Analysis
 # =============================================================================
 def plot_compression_tradeoff():
     """Analyze compression trade-offs."""
@@ -466,74 +341,12 @@ def plot_compression_tradeoff():
                    fontsize=10)
     
     plt.tight_layout()
-    save_path = f"{PLOTS_DIR}/07_compression_tradeoff.png"
+    save_path = f"{PLOTS_DIR}/05_compression_tradeoff.png"
     plt.savefig(save_path)
     plt.close()
     print(f"Saved: {save_path}")
 
-
-# =============================================================================
-# PLOT 8: Class Distribution with Model Performance
-# =============================================================================
-def plot_class_analysis(results):
-    """Analyze performance relative to class distribution."""
-    
-    # Class distribution (from training data)
-    class_counts = {
-        "sadness": 4666,
-        "joy": 5362,
-        "love": 1304,
-        "anger": 2159,
-        "fear": 1937,
-        "surprise": 572
-    }
-    total = sum(class_counts.values())
-    class_pcts = {k: v/total*100 for k, v in class_counts.items()}
-    
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-    fig.suptitle('Class Distribution vs Model Performance', fontsize=16, fontweight='bold', y=1.02)
-    
-    # Plot 1: Class distribution
-    colors_class = sns.color_palette("husl", 6)
-    bars = axes[0].bar(LABEL_NAMES, [class_pcts[l] for l in LABEL_NAMES], 
-                       color=colors_class, edgecolor='black', linewidth=1.2)
-    axes[0].set_ylabel('Percentage of Training Data')
-    axes[0].set_title('Training Data Class Distribution')
-    axes[0].tick_params(axis='x', rotation=45)
-    for bar, pct in zip(bars, [class_pcts[l] for l in LABEL_NAMES]):
-        axes[0].text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.5,
-                    f'{pct:.1f}%', ha='center', va='bottom', fontsize=10)
-    axes[0].grid(axis='y', alpha=0.3)
-    
-    # Plot 2: Scatter - Class size vs Best model F1
-    best_model = "BERT"
-    f1_scores = [results[best_model][f"f1_{label}"] for label in LABEL_NAMES]
-    sizes_scatter = [class_pcts[label] for label in LABEL_NAMES]
-    
-    for i, label in enumerate(LABEL_NAMES):
-        axes[1].scatter(sizes_scatter[i], f1_scores[i], s=200, c=[colors_class[i]], 
-                       label=label, edgecolors='black', linewidth=2, zorder=3)
-    
-    axes[1].set_xlabel('Class Size (% of training data)')
-    axes[1].set_ylabel('F1 Score (BERT)')
-    axes[1].set_title('Class Size vs F1 Score')
-    axes[1].legend(loc='lower right', fontsize=9)
-    axes[1].grid(True, alpha=0.3)
-    
-    # Add trend observation
-    axes[1].annotate('Minority classes\n(harder to predict)', 
-                    xy=(5, 0.87), fontsize=9, style='italic')
-    axes[1].annotate('Majority classes\n(easier to predict)', 
-                    xy=(28, 0.95), fontsize=9, style='italic')
-    
-    plt.tight_layout()
-    save_path = f"{PLOTS_DIR}/08_class_distribution_analysis.png"
-    plt.savefig(save_path)
-    plt.close()
-    print(f"Saved: {save_path}")
-
-
-# =============================================================================
+# ===============================================================
 # MAIN
 # =============================================================================
 def main():
@@ -557,11 +370,8 @@ def main():
     plot_model_performance(results)
     plot_per_class_f1(results)
     plot_training_resources(results)
-    plot_efficiency_analysis(results)
     plot_summary_table(results)
-    plot_compression_results()
     plot_compression_tradeoff()
-    plot_class_analysis(results)
     
     print("\n" + "="*60)
     print("ALL VISUALIZATIONS GENERATED!")

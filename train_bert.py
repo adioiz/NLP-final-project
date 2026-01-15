@@ -20,11 +20,11 @@ from transformers import (
 from config import (
     TRAIN_PATH, VAL_PATH, WEIGHTS_DIR,
     NUM_CLASSES, MODEL_CONFIGS, LABEL_NAMES,
-    MAX_LENGTH, BATCH_SIZE, LEARNING_RATE, NUM_EPOCHS, WARMUP_RATIO,
+    MAX_LENGTH, BATCH_SIZE, LEARNING_RATE, NUM_EPOCHS, WARMUP_RATIO, WEIGHT_DECAY,
     CLASS_WEIGHTS, DEVICE, SEED
 )
 from utils.data_loader import load_data, create_dataloaders, get_tokenizer
-from utils.metrics import compute_metrics, print_metrics, plot_confusion_matrix, print_classification_report
+from utils.metrics import plot_confusion_matrix, print_classification_report
 from utils.trainer import train_model, count_parameters, get_model_size_mb
 
 
@@ -127,7 +127,7 @@ def main():
     print("Class weights:", {LABEL_NAMES[i]: f"{w:.2f}" for i, w in enumerate(CLASS_WEIGHTS.tolist())})
     
     # Optimizer: AdamW (Adam with weight decay)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=LEARNING_RATE)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
     print(f"Optimizer: AdamW with LR={LEARNING_RATE}")
     
     # Learning rate scheduler with warmup

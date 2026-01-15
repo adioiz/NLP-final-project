@@ -10,7 +10,7 @@ Functions:
     - main: CLI that runs inference and optionally evaluates
 
 Usage:
-    python inference.py --weights weights/bert_best.pt --csv data/validation.csv
+    python inference.py --weights weights/roberta_best.pt --csv data/validation.csv
 """
 
 import argparse
@@ -26,7 +26,7 @@ import os
 from config import NUM_CLASSES, MODEL_CONFIGS, MAX_LENGTH, LABEL_NAMES
 
 
-def run_inference(weights_path, csv_path, model_type="bert", output_path="predictions.csv"):
+def run_inference(weights_path, csv_path, model_type="roberta", output_path="predictions.csv"):
     """
     Run inference on a CSV file.
     
@@ -143,7 +143,7 @@ def run_inference(weights_path, csv_path, model_type="bert", output_path="predic
     return predictions
 
 
-def evaluate_predictions(predictions, true_labels, model_type="bert"):
+def evaluate_predictions(predictions, true_labels, model_type="roberta"):
     """
     Evaluate predictions against true labels.
     
@@ -244,9 +244,9 @@ def main():
                        help="Path to model weights (.pt file)")
     parser.add_argument("--csv", type=str, required=True,
                        help="Path to input CSV file with 'text' column")
-    parser.add_argument("--model", type=str, default="bert",
+    parser.add_argument("--model", type=str, default="roberta",
                        choices=["bert", "roberta", "electra"],
-                       help="Model type (default: bert)")
+                       help="Model type (default: roberta)")
     parser.add_argument("--output", type=str, default="predictions.csv",
                        help="Output path for predictions (default: predictions.csv)")
     

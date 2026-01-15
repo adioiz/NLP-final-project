@@ -27,8 +27,8 @@ from config import (
 )
 
 from utils.data_loader import load_data, create_dataloaders, get_tokenizer
-from utils.metrics import compute_metrics, print_metrics, plot_confusion_matrix, print_classification_report
-from utils.trainer import train_model, count_parameters, get_model_size_mb
+from utils.metrics import compute_metrics, plot_confusion_matrix
+from utils.trainer import count_parameters
 
 
 def evaluate_model(model, val_loader, device):
@@ -178,7 +178,7 @@ def apply_pruning(model, pruning_amount=0.3):
 
 def main():
     print("="*60)
-    print("MODEL COMPRESSION - BERT")
+    print("MODEL COMPRESSION - RoBERTa")
     print("="*60)
     
     # =========================================================================
@@ -192,7 +192,7 @@ def main():
     train_df, val_df = load_data(TRAIN_PATH, VAL_PATH)
     
     # Load tokenizer
-    model_name = MODEL_CONFIGS["bert"]
+    model_name = MODEL_CONFIGS["roberta"]  # "roberta-base"
     tokenizer = get_tokenizer(model_name)
     
     # Create validation dataloader
@@ -200,15 +200,15 @@ def main():
         train_df, val_df, tokenizer, MAX_LENGTH, BATCH_SIZE
     )
     
-    # Load the trained BERT model
-    print(f"\nLoading trained BERT model from {WEIGHTS_DIR}/bert_best.pt")
+    # Load the trained RoBERTa model
+    print(f"\nLoading trained RoBERTa model from {WEIGHTS_DIR}/roberta_best.pt")
     
     original_model = AutoModelForSequenceClassification.from_pretrained(
         model_name,
         num_labels=NUM_CLASSES
     )
     original_model.load_state_dict(
-        torch.load(f"{WEIGHTS_DIR}/bert_best.pt", map_location="cpu")
+        torch.load(f"{WEIGHTS_DIR}/roberta_best.pt", map_location="cpu")
     )
     original_model.eval()
     
@@ -252,8 +252,8 @@ def main():
     print(f"  Inference Time: {quantized_time:.2f}s")
     
     # Save quantized model
-    torch.save(quantized_model.state_dict(), f"{WEIGHTS_DIR}/bert_quantized.pt")
-    print(f"  Saved to: {WEIGHTS_DIR}/bert_quantized.pt")
+    torch.save(quantized_model.state_dict(), f"{WEIGHTS_DIR}/roberta_quantized.pt")
+    print(f"  Saved to: {WEIGHTS_DIR}/roberta_quantized.pt")
     
     # =========================================================================
     # METHOD 2: PRUNING (30%)
@@ -272,8 +272,8 @@ def main():
     print(f"  Inference Time: {pruned_30_time:.2f}s")
     
     # Save pruned model
-    torch.save(pruned_model_30.state_dict(), f"{WEIGHTS_DIR}/bert_pruned_30.pt")
-    print(f"  Saved to: {WEIGHTS_DIR}/bert_pruned_30.pt")
+    torch.save(pruned_model_30.state_dict(), f"{WEIGHTS_DIR}/roberta_pruned_30.pt")
+    print(f"  Saved to: {WEIGHTS_DIR}/roberta_pruned_30.pt")
     
     # =========================================================================
     # METHOD 2: PRUNING (50%)
@@ -292,8 +292,8 @@ def main():
     print(f"  Inference Time: {pruned_50_time:.2f}s")
     
     # Save pruned model
-    torch.save(pruned_model_50.state_dict(), f"{WEIGHTS_DIR}/bert_pruned_50.pt")
-    print(f"  Saved to: {WEIGHTS_DIR}/bert_pruned_50.pt")
+    torch.save(pruned_model_50.state_dict(), f"{WEIGHTS_DIR}/roberta_pruned_50.pt")
+    print(f"  Saved to: {WEIGHTS_DIR}/roberta_pruned_50.pt")
     
     # =========================================================================
     # COMPARISON SUMMARY
@@ -303,7 +303,7 @@ def main():
     print("="*60)
     
     results = {
-        "Original BERT": {
+        "Original RoBERTa": {
             "size_mb": original_size,
             "accuracy": original_metrics["accuracy"],
             "f1_macro": original_metrics["f1_macro"],
@@ -358,20 +358,20 @@ def main():
     
     plot_confusion_matrix(
         q_labels, q_preds,
-        "BERT Quantized",
-        save_path="outputs/bert_quantized_confusion_matrix.png"
+        "RoBERTa Quantized",
+        save_path="outputs/roberta_quantized_confusion_matrix.png"
     )
     
     plot_confusion_matrix(
         p30_labels, p30_preds,
-        "BERT Pruned 30%",
-        save_path="outputs/bert_pruned_30_confusion_matrix.png"
+        "RoBERTa Pruned 30%",
+        save_path="outputs/roberta_pruned_30_confusion_matrix.png"
     )
     
     plot_confusion_matrix(
         p50_labels, p50_preds,
-        "BERT Pruned 50%",
-        save_path="outputs/bert_pruned_50_confusion_matrix.png"
+        "RoBERTa Pruned 50%",
+        save_path="outputs/roberta_pruned_50_confusion_matrix.png"
     )
     
     print("\n" + "="*60)

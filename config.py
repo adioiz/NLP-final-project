@@ -7,8 +7,8 @@ import torch
 # =============================================================================
 # PATHS
 # =============================================================================
-TRAIN_PATH = "data/train.csv"
-VAL_PATH = "data/validation.csv"
+TRAIN_PATH = "data/train_cleaned.csv"
+VAL_PATH = "data/validation_cleaned.csv"
 WEIGHTS_DIR = "weights/"
 OUTPUTS_DIR = "outputs/"
 
@@ -41,6 +41,7 @@ BATCH_SIZE = 32           # Standard for finetuning on a CPU
 LEARNING_RATE = 2e-5      # Standard LR for fine-tuning transformers
 NUM_EPOCHS = 3
 WARMUP_RATIO = 0.1        # Warmup steps as ratio of total steps
+WEIGHT_DECAY = 0.05        # Weight decay for optimizer
 
 # =============================================================================
 # CLASS WEIGHTS (to handle imbalance)
