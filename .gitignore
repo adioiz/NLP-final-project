@@ -5,4 +5,5 @@ __pycache__/
 weights/bert_best.pt
 weights/roberta_best.pt
 weights/electra_best.pt
+weights/
 
