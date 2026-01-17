@@ -10,7 +10,7 @@ Functions:
     - main: CLI that runs inference and optionally evaluates
 
 Usage:
-    python inference.py --weights weights/roberta_best.pt --csv data/validation.csv
+    python run_inference.py --weights weights/roberta_best.pt --csv data/validation.csv
 """
 
 import argparse
@@ -26,7 +26,7 @@ import os
 from config import NUM_CLASSES, MODEL_CONFIGS, MAX_LENGTH, LABEL_NAMES
 
 
-def run_inference(weights_path, csv_path, model_type="roberta", output_path="predictions.csv"):
+def inference(weights_path, csv_path, model_type="roberta", output_path="predictions.csv"):
     """
     Run inference on a CSV file.
     
@@ -253,7 +253,7 @@ def main():
     args = parser.parse_args()
     
     # Step 1: Run inference
-    predictions = run_inference(
+    predictions = inference(
         weights_path=args.weights,
         csv_path=args.csv,
         model_type=args.model,
