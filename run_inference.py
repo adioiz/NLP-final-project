@@ -1,16 +1,22 @@
 """
-inference.py - Run inference on test data
+run_inference.py - Run inference on test data
 
-This module provides the run_inference function:
-    run_inference(weights, csv) → prediction
+This module provides the required run_inference function:
+    run_inference(weights, csv) → predictions
 
 Functions:
-    - run_inference: Core function that returns predictions
+    - run_inference: Required interface matching project specs (wrapper)
+    - inference: Core implementation with full parameter control
     - evaluate_predictions: Calculates metrics
     - main: CLI that runs inference and optionally evaluates
 
 Usage:
-    python run_inference.py --weights weights/roberta_best.pt --csv data/validation.csv
+    # Method 1: Use the required interface
+    >>> from run_inference import run_inference
+    >>> predictions = run_inference("weights/roberta_best.pt", "data/validation.csv")
+
+    # Method 2: Use CLI
+    >>> python run_inference.py --weights weights/roberta_best.pt --csv data/validation.csv
 """
 
 import argparse
@@ -141,6 +147,37 @@ def inference(weights_path, csv_path, model_type="roberta", output_path="predict
     print("="*60)
     
     return predictions
+
+
+def run_inference(weights, csv):
+    """
+    Required interface for teaching staff testing: run_inference(weights, csv) -> predictions
+
+    This is a wrapper function that matches the exact signature required by the project specs.
+
+    Args:
+        weights (str): Path to trained model weights (.pt file)
+        csv (str): Path to CSV file with 'text' column
+
+    Returns:
+        list: Predicted labels (0-5) for each text in CSV
+
+    Example:
+        >>> predictions = run_inference("weights/roberta_best.pt", "data/validation.csv")
+        >>> print(predictions[:5])  # First 5 predictions
+        [1, 0, 2, 4, 1]
+
+    Note:
+        - This function uses RoBERTa as the default model (best performing)
+        - Predictions are saved to 'predictions.csv' by default
+        - For more control, use the inference() function directly
+    """
+    return inference(
+        weights_path=weights,
+        csv_path=csv,
+        model_type="roberta",  # Default to best performing model
+        output_path="predictions.csv"
+    )
 
 
 def evaluate_predictions(predictions, true_labels, model_type="roberta"):
