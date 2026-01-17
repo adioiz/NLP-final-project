@@ -328,7 +328,7 @@ def plot_compression_tradeoff():
     ax.set_xlabel('Model File Size (MB)', fontsize=12)
     ax.set_ylabel('F1 Macro Score', fontsize=12)
     ax.set_title('Compression Trade-off: Size vs Performance', fontsize=14, fontweight='bold')
-    ax.legend(loc='upper right', fontsize=10)
+    ax.legend(loc='lower left', fontsize=10)
     ax.grid(True, alpha=0.3)
     
     # Add annotation for best trade-off (quantized model)
