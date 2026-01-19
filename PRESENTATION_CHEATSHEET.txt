@@ -1,0 +1,145 @@
+================================================================================
+PRESENTATION CHEATSHEET - Twitter Emotion Classification
+================================================================================
+
+SLIDE ORDER (17 slides, ~15 min)
+├── 1. Title
+├── 2. Project Overview                    [TEXT]
+├── 3. Class Imbalance                     [TABLE]
+├── 4. Models Compared                     [TABLE]
+├── 5. Model Performance ⭐                 [01_model_performance.png - RIGHT SIDE]
+├── 6. Per-Class Performance ⭐            [02_per_class_f1.png - RIGHT SIDE]
+├── 7. Confusion Matrix ⭐⭐⭐              [roberta_confusion_matrix.png - FULL]
+├── 8. Training Resources                  [03_training_resources.png - RIGHT SIDE]
+├── 9. Compression Methods                 [TEXT]
+├── 10. Compression Results ⭐⭐           [05_compression_tradeoff.png - LARGE]
+├── 11. Summary Table ⭐⭐                 [04_summary_table.png - FULL]
+├── 12. Technical Implementation           [TEXT]
+├── 13. Key Contributions                  [TEXT with checkmarks]
+├── 14. Key Findings                       [TEXT]
+├── 15. Future Work                        [TEXT]
+├── 16. Conclusion                         [TEXT]
+└── 17. Questions / Thank You              [TEXT]
+
+⭐ = Important slide  ⭐⭐ = Very important  ⭐⭐⭐ = Critical
+
+================================================================================
+KEY NUMBERS (memorize these!)
+================================================================================
+
+MODELS:
+  RoBERTa:  93.4% accuracy, 91.32% F1 ← WINNER (best F1 for imbalanced data)
+  BERT:     93.4% accuracy, 91.08% F1
+  ELECTRA:  93.1% accuracy, 90.82% F1
+
+DATASET:
+  Total: 18,000 tweets (16K train, 2K val)
+  Imbalance: Joy 33.5% vs Surprise 3.6% (9× difference!)
+
+PER-CLASS F1 (RoBERTa):
+  Sadness: 96.2%  Joy: 95.1%  Anger: 93.5%
+  Fear: 88.9%  Love: 88.1%  Surprise: 86.2%
+  → Even minority classes >86%!
+
+COMPRESSION:
+  Quantized:   231 MB (2× smaller), 92.9% acc (0.5% drop) ← BEST
+  Pruned 30%:  476 MB, 90.2% acc (3.2% drop)
+  Pruned 50%:  476 MB, 40.2% acc ← FAILED
+
+================================================================================
+IMAGE USAGE
+================================================================================
+
+All images in: presentation_images/
+
+Slide 5:  01_model_performance_comparison.png    [Performance bars]
+Slide 6:  02_per_class_f1_comparison.png         [Per-class comparison]
+Slide 7:  roberta_confusion_matrix.png           [Confusion matrix - BIG!]
+Slide 8:  03_training_resources_comparison.png   [Time/size comparison]
+Slide 10: 05_compression_tradeoff.png            [Compression chart - BIG!]
+Slide 11: 04_summary_table.png                   [Full results table - BIG!]
+
+PLACEMENT GUIDE:
+  RIGHT SIDE (50%): Slides 5, 6, 8
+  FULL SLIDE (80%): Slides 7, 11
+  LARGE (70%):      Slide 10
+
+================================================================================
+SLIDE CONTENT QUICK REF
+================================================================================
+
+SLIDE 2 (Overview):
+  • Task: Classify tweets → 6 emotions
+  • Dataset: 18,000 tweets
+  • Challenge: Class imbalance (33.5% vs 3.6%)
+
+SLIDE 5 (Performance):
+  [TABLE with Accuracy/F1/Time for 3 models]
+  + IMAGE: 01_model_performance_comparison.png
+
+SLIDE 7 (Confusion Matrix):
+  Just the big image: roberta_confusion_matrix.png
+  Caption: "Diagonal = correct, off-diagonal = errors"
+
+SLIDE 10 (Compression):
+  [TABLE: Method, Size, Accuracy, Drop]
+  + IMAGE: 05_compression_tradeoff.png
+  Highlight: "Quantization = 2× smaller, <1% loss"
+
+SLIDE 13 (Contributions):
+  ✅ Three models (all >93%)
+  ✅ Handled imbalance
+  ✅ Two compression methods
+  ✅ Production API
+  ✅ Documentation
+
+SLIDE 16 (Conclusion):
+  Problem → Solution → Results → Status: Ready ✅
+
+================================================================================
+EXPRESS VERSION (10 slides, 8 min)
+================================================================================
+
+Keep only: 1, 2, 5, 6, 7, 10, 11, 13, 16, 17
+Skip: 3, 4, 8, 9, 12, 14, 15
+
+================================================================================
+COMMON QUESTIONS & ANSWERS
+================================================================================
+
+Q: Why RoBERTa?
+A: Best F1 Macro (91.32%) - better for imbalanced data
+
+Q: How handle imbalance?
+A: Weighted loss (4.66× for rare class) + F1 Macro metric
+
+Q: Deployment?
+A: Quantized model - 2× smaller, only 0.5% accuracy loss
+
+Q: Training time?
+A: ~90 min on GPU
+
+================================================================================
+PRE-PRESENTATION CHECKLIST
+================================================================================
+
+□ PowerPoint created with 17 slides
+□ All 6 images inserted and visible
+□ Slide numbers added
+□ Authors/contact info on title & end slides
+□ Spell-checked
+□ Practiced 2-3 times (check 15-min timing)
+□ PDF backup created
+□ Images folder ready if presenting on different computer
+
+================================================================================
+POWERPOINT SETTINGS
+================================================================================
+
+Font:     Arial Bold 44pt (titles), Arial 24pt (body)
+Colors:   Dark blue headers, orange highlights, white background
+Layout:   Title on top, content below, images right/center
+Numbers:  Bottom right corner
+Timing:   ~1 minute per slide average
+
+================================================================================
