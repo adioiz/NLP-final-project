@@ -18,8 +18,9 @@ Run `visualizations.py` to generate 2 new professional dataset analysis graphs.
 - **Perfect for showing imbalance!**
 
 **Right:** Text Length Distribution
-- Histogram by emotion
-- Shows data characteristics
+- Box plot by emotion
+- Shows median, quartiles, outliers
+- Clean, readable visualization
 
 ### 2. **class_distribution_pie.png** - Pie Chart (10×8 inches)
 
@@ -50,9 +51,10 @@ outputs/class_distribution_pie.png
 **Current Slide 3 has a text table.** Enhance it with:
 
 **Option A:** Replace table with `dataset_analysis.png` (full width)
-- Shows both imbalance AND text characteristics
+- Shows both imbalance AND text characteristics (box plot)
 - More visual impact
 - Professional publication quality
+- Box plot is clear and easy to read
 
 **Option B:** Keep table + add `class_distribution_pie.png` (right side)
 - Table on left (40%)

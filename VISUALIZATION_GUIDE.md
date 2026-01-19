@@ -16,10 +16,12 @@
 - Color-coded for each emotion
 - **Clearly shows the imbalance** (Joy: 33.5% vs Surprise: 3.6%)
 
-**Right subplot:** Text Length Distribution Histogram
+**Right subplot:** Text Length Distribution Box Plot
 - Shows tweet length characteristics by emotion
-- Overlapping histograms for each class
-- Helps understand data characteristics
+- Box plot format: median, quartiles, and outliers
+- Clean, non-overlapping visualization
+- Each emotion color-coded for easy identification
+- Red diamond = mean, black line = median
 
 **Size:** 16×6 inches, high resolution (300 DPI)
 **Use in presentation:** Slide 3 (Class Imbalance)

@@ -52,18 +52,33 @@ for tick in axes[0].get_xticklabels():
     tick.set_fontsize(12)
 
 train_df['text_length'] = train_df['text'].str.len()
+train_df['emotion_name'] = train_df['label'].map(LABEL_NAMES)
 
-for label_id in range(6):
-    emotion_data = train_df[train_df['label'] == label_id]['text_length']
-    axes[1].hist(emotion_data, bins=30, alpha=0.6, label=LABEL_NAMES[label_id],
-                color=COLORS[label_id], edgecolor='black', linewidth=0.5)
+data_for_box = [train_df[train_df['label'] == i]['text_length'].values for i in range(6)]
 
-axes[1].set_xlabel('Tweet Length (characters)', fontsize=14, fontweight='bold')
-axes[1].set_ylabel('Frequency', fontsize=14, fontweight='bold')
-axes[1].set_title('Text Length Distribution by Emotion\n(Tweet Characteristics)',
+bp = axes[1].boxplot(data_for_box,
+                     labels=labels,
+                     patch_artist=True,
+                     widths=0.6,
+                     showmeans=True,
+                     meanprops=dict(marker='D', markerfacecolor='red', markersize=6, markeredgecolor='darkred'),
+                     medianprops=dict(color='black', linewidth=2),
+                     boxprops=dict(linewidth=1.5),
+                     whiskerprops=dict(linewidth=1.5),
+                     capprops=dict(linewidth=1.5))
+
+for patch, color in zip(bp['boxes'], COLORS):
+    patch.set_facecolor(color)
+    patch.set_alpha(0.7)
+
+axes[1].set_xlabel('Emotion', fontsize=14, fontweight='bold')
+axes[1].set_ylabel('Tweet Length (characters)', fontsize=14, fontweight='bold')
+axes[1].set_title('Text Length Distribution by Emotion\n(Box Plot: Median, Quartiles & Outliers)',
                  fontsize=16, fontweight='bold', pad=20)
-axes[1].legend(loc='upper right', fontsize=11, framealpha=0.9)
 axes[1].grid(axis='y', alpha=0.3)
+
+for tick in axes[1].get_xticklabels():
+    tick.set_fontsize(12)
 
 plt.tight_layout()
 plt.savefig('outputs/dataset_analysis.png', dpi=300, bbox_inches='tight')
@@ -129,7 +144,7 @@ print("VISUALIZATIONS CREATED:")
 print("="*60)
 print("1. outputs/dataset_analysis.png")
 print("   - Bar chart: Class distribution (shows imbalance)")
-print("   - Histogram: Text length distribution by emotion")
+print("   - Box plot: Text length distribution by emotion (median, quartiles, outliers)")
 print("\n2. outputs/class_distribution_pie.png")
 print("   - Pie chart: Alternative view of class imbalance")
 print("\nAdd these to your presentation slides!")
