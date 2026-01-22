@@ -100,7 +100,7 @@ python compare_models.py
 ```bash
 
 # Batch inference from CSV
-python inference.py --weights weights/roberta_best.pt --csv data/validation.csv
+python run_inference.py --weights weights/roberta_best.pt --csv data/validation.csv
 
 ```
 
